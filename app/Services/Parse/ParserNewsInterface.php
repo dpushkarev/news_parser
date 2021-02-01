@@ -12,8 +12,8 @@ use PHPHtmlParser\Dom\Node\HtmlNode;
 interface ParserNewsInterface
 {
     /**
-     * @return int
+     * @return array
      */
-    public function parse(): int;
+    public function getParsedNews(): array;
 
 }

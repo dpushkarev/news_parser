@@ -40,12 +40,16 @@ class ParseNewsCommand extends Command
      */
     public function handle(ParseService $parseService)
     {
+        // Set parsers
         $parsers = [
             app()->make(ParserRbkNews::class),
         ];
 
-        $status =  $parseService->parseNews($parsers);
+        foreach ($parsers as $parser) {
+            $status = $parseService->parseNews($parser);
 
-        $this->comment(sprintf('Status: %d', $status));
+            $this->comment(sprintf('Status: %d', $status));
+        }
+
     }
 }

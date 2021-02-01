@@ -4,7 +4,6 @@
 namespace App\Services\Parse;
 
 
-use App\Models\News;
 use App\Models\NewsSource;
 use App\Repositories\NewsSourceRepository;
 use Illuminate\Support\Carbon;
@@ -29,7 +28,10 @@ abstract class ParserNewsAbstract implements ParserNewsInterface
         $this->newsSourceRepository = $newsSourceRepository;
     }
 
-    public function parse(): int
+    /**
+     * @return array
+     */
+    public function getParsedNews(): array
     {
         $newsCollection = [];
         $newsSource = $this->getNewsSource();
@@ -62,6 +64,7 @@ abstract class ParserNewsAbstract implements ParserNewsInterface
                 if (sizeof($newsCollection) >= static::$NEWS_LIMIT) {
                     break;
                 }
+
             } catch (\Exception $exception) {
                 /** write into log */
                 Log::error($exception->getMessage());
@@ -69,16 +72,13 @@ abstract class ParserNewsAbstract implements ParserNewsInterface
             }
         }
 
-        try {
-            News::insert($newsCollection);
-        } catch (\Exception $exception) {
-            /** write into log */
-            Log::error($exception->getMessage());
-            return 1;
-        }
-
-        return 0;
+        return $newsCollection;
     }
+
+    /**
+     * @return \ArrayIterator
+     */
+    abstract protected function getNewsIterator(): \ArrayIterator;
 
     /**
      * @param HtmlNode $block

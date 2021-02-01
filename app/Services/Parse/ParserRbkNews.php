@@ -21,7 +21,7 @@ class ParserRbkNews extends ParserNewsAbstract
         'www.rbc.ru'
     ];
 
-    protected function getNewsIterator()
+    protected function getNewsIterator(): \ArrayIterator
     {
         $loadedData = $this->domObject->loadFromUrl(static::SOURCE_URL);
         $newsBlock = $loadedData->find('.js-news-feed-list .news-feed__item');
