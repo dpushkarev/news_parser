@@ -2,7 +2,7 @@
 @section('content')
     <div class="list-group">
         @foreach($news as $item)
-            <a href="{{ route('news.detail', ['id' => $item->id]) }}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="{{ $item->by_partner ? $item->url : route('news.detail', ['id' => $item->id]) }}" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ $item->title }}</h5>
                     <small></small>
